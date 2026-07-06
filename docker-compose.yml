@@ -1,0 +1,16 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: drop-shot-mysql
+    environment:
+      MYSQL_DATABASE: dropshot
+      MYSQL_USER: dropshot
+      MYSQL_PASSWORD: dropshot
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - drop-shot-mysql:/var/lib/mysql
+
+volumes:
+  drop-shot-mysql:
