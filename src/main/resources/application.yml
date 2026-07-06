@@ -1,6 +1,10 @@
 server:
   port: ${PORT:${SERVER_PORT:8080}}
 
+app:
+  cors:
+    allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:http://localhost:*,http://127.0.0.1:*}
+
 spring:
   application:
     name: drop-shot-matching
