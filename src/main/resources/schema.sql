@@ -27,14 +27,6 @@ CREATE TABLE IF NOT EXISTS dropshot.events (
     exited_participant_ids_json TEXT NULL
 );
 
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS ended_at TIMESTAMP NULL;
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS court_count INT NOT NULL DEFAULT 4;
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS game_started BOOLEAN NOT NULL DEFAULT FALSE;
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS court_assignments_json TEXT NULL;
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS court_names_json TEXT NULL;
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS waiting_since_json TEXT NULL;
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS resting_participant_ids_json TEXT NULL;
-ALTER TABLE dropshot.events ADD COLUMN IF NOT EXISTS exited_participant_ids_json TEXT NULL;
 UPDATE dropshot.events SET court_assignments_json = '{}' WHERE court_assignments_json IS NULL;
 UPDATE dropshot.events SET court_names_json = '{}' WHERE court_names_json IS NULL;
 UPDATE dropshot.events SET waiting_since_json = '{}' WHERE waiting_since_json IS NULL;
@@ -54,10 +46,6 @@ CREATE TABLE IF NOT EXISTS dropshot.participants (
     INDEX idx_participants_event (event_id),
     INDEX idx_participants_member (member_id)
 );
-
-ALTER TABLE dropshot.participants ADD COLUMN IF NOT EXISTS game_count INT NOT NULL DEFAULT 0;
-ALTER TABLE dropshot.members ADD COLUMN IF NOT EXISTS gender VARCHAR(10) NOT NULL DEFAULT '미지정';
-ALTER TABLE dropshot.participants ADD COLUMN IF NOT EXISTS gender VARCHAR(10) NOT NULL DEFAULT '미지정';
 
 CREATE TABLE IF NOT EXISTS dropshot.partner_pairs (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -81,8 +69,6 @@ CREATE TABLE IF NOT EXISTS dropshot.completed_court_games (
     CONSTRAINT fk_completed_court_games_event FOREIGN KEY (event_id) REFERENCES dropshot.events (id),
     INDEX idx_completed_court_games_event (event_id, completed_at)
 );
-
-ALTER TABLE dropshot.completed_court_games ADD COLUMN IF NOT EXISTS court_name VARCHAR(100) NOT NULL DEFAULT '';
 
 CREATE TABLE IF NOT EXISTS dropshot.completed_court_game_members (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
